@@ -1,0 +1,121 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lets Meet</title>
+    <!-- Static CSS file -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Tint&family=Matemasie&display=swap" rel="stylesheet">
+    <!-- JavaScript files -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="{% static 'js/base.js' %}"></script>
+</head>
+
+<body>
+    <div class="container matemasie-regular">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary" id="navbarbg">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/"><span class="bungee-tint-regular">Lets Meet</span></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'create_event' %}">Create Events</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'events' %}">Events</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'my_events' %}">My Events</a>
+                        </li>
+                        {% if user.is_authenticated %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'signup' %}">Sign Up</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'login' %}">Login</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <br>
+
+        {% block body_block %}
+        {% endblock %}     
+
+        <button onclick="topFunction()" id="myBtn" title="Go to top">Home</button>
+
+        <footer class="text-center text-white">
+            <!-- Grid container -->
+            <div class="container">
+                <!-- Section: Links -->
+                <section class="mt-5">
+                    <div class="row text-center d-flex justify-content-center pt-5">
+                        <div class="col-md-2">
+                            <h6 class="text-uppercase font-weight-bold">
+                                <a href="/" class="text-white">About us</a>
+                            </h6>
+                        </div>
+                        <div class="col-md-2">
+                            <h6 class="text-uppercase font-weight-bold">
+                                <a href="/" class="text-white">HOME</a>
+                            </h6>
+                        </div>
+                        <div class="col-md-2">
+                            <h6 class="text-uppercase font-weight-bold">
+                                <a href="{% url 'events' %}" class="text-white">EVENTS</a>
+                            </h6>
+                        </div>
+                        <div class="col-md-2">
+                            <h6 class="text-uppercase font-weight-bold">
+                                <a href="{% url 'login' %}" class="text-white">LOGIN</a>
+                            </h6>
+                        </div>
+                        <div class="col-md-2">
+                            <h6 class="text-uppercase font-weight-bold">
+                                <a href="/" class="text-white">Contact</a>
+                            </h6>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="my-5" />
+
+                <!-- Section: Social Media Icons -->
+                <section class="mb-4 social-icons">
+                    <a href="https://www.facebook.com" target="_blank" class="fab fa-facebook-f"></a>
+                    <a href="https://www.twitter.com" target="_blank" class="fab fa-twitter"></a>
+                    <a href="https://www.instagram.com" target="_blank" class="fab fa-instagram"></a>
+                    <a href="https://www.linkedin.com" target="_blank" class="fab fa-linkedin-in"></a>
+                </section>
+
+            </div>
+
+            <!-- Copyright -->
+            <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
+                © 2024 Copyright:
+                <a class="text-white" href="https://yourwebsite.com">letsmeet.com</a>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

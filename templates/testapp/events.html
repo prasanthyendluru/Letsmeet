@@ -1,0 +1,36 @@
+{% extends 'testapp/base.html' %}
+{% block body_block %}
+
+<div class="container" align="center">
+    <div class="jumbotron">
+        <form method="post" enctype="multipart/form-data">
+            <h3>All Events</h3>
+            {{ form.as_p }}
+            {% csrf_token %}
+
+            {% if events_list %}
+            <div class="container my-5">
+                <div class="row justify-content-center">
+                    {% for event in events_list %}
+                    <div class="col-md-4 mb-4"> <!-- Adjust the width and spacing with 'col-md-4 mb-4' -->
+                        <div class="card h-100"> <!-- 'h-100' makes the card full height -->
+                            <img src="{{ event.image.url }}" class="card-img-top" alt="Card Image">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ event.eventname }}</h5>
+                                <p class="card-text">{{ event.type_of_event }}</p>
+                                <p class="card-text">{{ event.location }}</p>
+                                <p class="card-text">{{ event.date }}</p>
+                                <a href="{% url 'register_for_event' event.id %}" class="btn btn-primary">Participate/Register</a>
+                            
+                              </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </form>
+    </div>
+</div>
+
+{% endblock %}

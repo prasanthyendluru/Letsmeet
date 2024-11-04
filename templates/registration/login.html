@@ -1,0 +1,15 @@
+{% extends 'testapp/base.html'%}
+{% block body_block %}
+<div class="container" align="center">
+    <div class="jumbotron">
+        <form method="post">
+            {{ form.as_p }}
+            {% csrf_token %}
+            <input type="submit"value='login' class="btn btn-primary" >
+        </form>
+        <a href="/signup">Dont have an account?</a>
+    </div>
+</div>
+<div class="container" align="center">
+
+{% endblock %}

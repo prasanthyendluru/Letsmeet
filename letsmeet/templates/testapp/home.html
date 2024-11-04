@@ -1,0 +1,197 @@
+{% extends 'testapp/base.html' %}
+{% block body_block %}
+<div class="container">
+    <div class="content-section">
+      <!-- Left Side: Title and Typing Text -->
+      <div class="left-side ">
+          <h1 class="title">Welcome to My Website</h1>
+          <p class="typing-text" id="typing-text">This is a typing effect text, it looks awesome!</p>
+      <a href="" class="btn btn-primary">Get started</a>
+      </div>
+      &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+
+      <!-- Right Side: Image with Hover Effect -->
+      <div class="right-side ">
+          <img src="static/images/meetup.jpg" alt="Hover Image" class="hover-image leftimage">
+      </div>
+  </div>
+</div>
+<div class="container "align='center'>
+  
+  <style>
+    .datebtn{
+      margin-left: 35%;
+      margin-right: 35%;
+    }
+  </style>
+ 
+
+    
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const dateInput = document.getElementById('dateInput');
+    const today = new Date().toISOString().split('T')[0];
+    dateInput.value = today;
+  });
+  
+  function showCalendar() {
+    const datePicker = document.getElementById('datePicker');
+    datePicker.style.display = 'block';
+    datePicker.focus();
+  }
+  
+  function updateDate() {
+    const datePicker = document.getElementById('datePicker');
+    const dateInput = document.getElementById('dateInput');
+    dateInput.value = datePicker.value;
+    datePicker.style.display = 'none';
+  
+    // Fetch events for the selected date
+    fetchEvents(datePicker.value);
+  }
+  
+  function fetchEvents(date) {
+  fetch(`/events/${date}/`) // Ensure this URL matches your URL pattern
+    .then(response => response.json())
+    .then(data => {
+      const eventsContainer = document.getElementById('events-container');
+      eventsContainer.innerHTML = ''; // Clear previous events
+      if (data.events.length === 0) {
+        eventsContainer.innerHTML = '<p>No events found for this date.</p>';
+      } else {
+        data.events.forEach(event => {
+          const eventElement = document.createElement('div');
+          eventElement.classList.add('col-md-4'); // Ensure this matches your Bootstrap column settings
+          eventElement.innerHTML = `
+            <div class="card mb-4">
+              <img src="${event.image || '/static/images/default.jpg'}" class="card-img-top" alt="Event Image">
+              <div class="card-body">
+                <h5 class="card-title">${event.eventname}</h5>
+                <p class="card-text">Date: ${event.date}</p>
+                <p class="card-text">Location: ${event.location}</p>
+                <p class="card-text">${event.type_of_event}</p>
+                <button class="btn btn-primary" onclick="registerForEvent(${event.id})">Register</button>
+              </div>
+            </div>
+          `;
+          eventsContainer.appendChild(eventElement);
+        });
+      }
+    });
+}
+
+function registerForEvent(eventId) {
+  fetch(`/register/${eventId}/`, { method: 'POST', headers: {'X-CSRFToken': getCookie('csrftoken')} })
+    .then(response => {
+      if (response.ok) {
+        alert('Registered successfully!');
+      } else {
+        alert('Failed to register.');
+      }
+    });
+}
+
+// Utility function to get CSRF token from cookies
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.substring(0, name.length + 1) === (name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
+
+  </script>
+  
+  <div class="container mt-5">
+    <h1>Events</h1>
+    <div class="datebtn">
+      <div class="container mt-5">
+        <div class="form-group">
+          <label for="dateButton">Select Date:</label>
+          <div class="input-group">
+            <input type="text" id="dateInput" class="form-control" readonly>
+            <button id="dateButton" class="btn btn-primary" onclick="showCalendar()">Select Date</button>
+          </div>
+          <input type="date" id="datePicker" class="form-control mt-3" style="display: none;" onchange="updateDate()">
+        </div>
+      </div>
+    </div>
+    
+    <div id="events-container" class="row mt-4">
+      <!-- Events will be dynamically inserted here -->
+    </div>
+  </div>
+  
+  <!-- <style>/* Add custom styles for event cards */
+    .card {
+      border-radius: 0.5rem;
+      overflow: hidden;
+    }
+    
+    .card-img-top {
+      object-fit: cover;
+      height: 180px; /* Adjust height as needed */
+    }
+    
+    .card-body {
+      padding: 1.25rem;
+    }
+    
+    .card-title {
+      font-size: 1.25rem;
+    }
+    
+    .card-text {
+      margin-bottom: 0.5rem;
+    }
+    </style> -->
+
+
+  <h1>How Let's Meet works</h1>
+  <p> Meet New People who share your interests through online!</p>
+</div>
+
+
+    <div class="container my-5">
+      <div class="row justify-content-center">
+          <div class="col-md-4">
+              <div class="card">
+                  <img src="static/images/Register.jpeg" class="card-img-top" alt="Card Image">
+                  <div class="card-body">
+                    <h5 class="card-title">Register Events</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="/create" class="btn btn-primary">Register</a>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="card">
+                  <img src="static/images/find.jpeg" class="card-img-top" alt="Card Image">
+                  <div class="card-body">
+                    <h5 class="card-title">Find Events</h5>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <a href="/events" class="btn btn-primary " >Find</a>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="card">
+                  <img src="static/images/part.jpeg" class="card-img-top" alt="Card Image">
+                  <div class="card-body">
+                    <h5 class="card-title">Participate Events</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="/events" class="btn btn-primary">Participate</a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+{% endblock %}

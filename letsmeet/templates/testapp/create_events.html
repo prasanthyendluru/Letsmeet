@@ -1,0 +1,15 @@
+{% extends 'testapp/base.html'%}
+{% block body_block %}
+
+<div class="container" align="center">
+  <div class="jumbotron">
+<form  method="post">
+  <h3>Events Form</h3>
+  {{form.as_p}}
+  {% csrf_token %}
+  <input type="submit"value='Create' class="btn btn-primary" >
+</form>
+
+</div></div>
+
+{% endblock %}
